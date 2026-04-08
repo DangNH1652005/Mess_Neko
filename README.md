@@ -72,3 +72,4 @@ npm run dev
 ## Task Complete
 
 - đã làm signup lưu email vào mongodb bằng cach xác thực email
+- đã làm xong login và logout sử dụng jwt và cookie

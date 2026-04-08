@@ -16,4 +16,3 @@ export async function sendVerificationEmail(toEmail, token) {
     await transporter.sendMail(mailOptions);
     console.log(`Verification email sent to ${toEmail}`);
 }
-
