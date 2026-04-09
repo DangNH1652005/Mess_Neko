@@ -1,7 +1,7 @@
 import { path, env } from "../configs/env.config.js"
 import { transporter } from "../configs/mail.config.js";
 
-export async function sendVerificationEmail(toEmail, token) {
+export const sendVerificationEmail = async (toEmail, token) => {
     const verifyUrl = `${path.APP_URL}/${token}`;
     const mailOptions = {
         from: env.SMTP_FROM,
