@@ -71,5 +71,8 @@ npm run dev
 
 ## Task Complete
 
+### Backend
+
 - đã làm signup lưu email vào mongodb bằng cach xác thực email
 - đã làm xong login và logout sử dụng jwt và cookie
+- Chức năng kết bạn với nhau, Ghét nhau thì xóa
