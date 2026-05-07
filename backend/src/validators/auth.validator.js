@@ -1,19 +1,21 @@
-import { z } from "zod";
+import Joi from "joi";
 
-export const signupSchema = z.object({
-  username: z
-    .string()
-    .min(3, "Username must be at least 3 characters")
-    .max(20, "Username must be at most 20 characters")
-    .trim(),
-
-  email: z.string().email("Invalid email format").trim(),
-
-  password: z.string().min(6, "Password must be at least 6 characters"),
+export const signupSchema = Joi.object({
+  email: Joi.string().email().required(),
+  password: Joi.string().min(6).required(),
+  fullName: Joi.string().required(),
 });
 
-export const loginScheme = z.object({
-  email: z.string().email("Invalid email format").trim(),
+export const loginSchema = Joi.object({
+  email: Joi.string().email().required(),
+  password: Joi.string().min(6).required(),
+});
 
-  password: z.string().min(6, "Password must be at least 6 characters"),
+export const onboardSchema = Joi.object({
+  fullName: Joi.string().required(),
+  bio: Joi.string().required(),
+  nativeLanguage: Joi.string().required(),
+  learningLanguage: Joi.string().required(),
+  location: Joi.string().required(),
+  profilePic: Joi.string().uri().allow(""),
 });

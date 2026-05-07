@@ -1,17 +1,24 @@
 import express from "express";
-import { validate } from "../middlewares/validate.middleware.js";
-import { signupSchema, loginScheme } from "../validators/auth.validator.js";
-import { login, signup, verifyToken, logout, checkAuth } from "../controllers/auth.controller.js";
+import {
+  login,
+  logout,
+  onboard,
+  signup,
+} from "../controllers/auth.controller.js";
 import { protectRoute } from "../middlewares/auth.middleware.js";
 
 const router = express.Router();
 
-router.post("/register", validate(signupSchema), signup);
+router.post("/signup", signup);
+router.post("/login", login);
+router.post("/logout", logout);
 
-router.get("/verify/:token", verifyToken);
+router.post("/onboarding", protectRoute, onboard);
 
-router.post("/login", validate(loginScheme), login);
-router.post("/logout", protectRoute, logout);
-
-router.get("/check", protectRoute, checkAuth);
+router.get("/me", protectRoute, (req, res) => {
+  res.status(200).json({
+    success: true,
+    user: req.user,
+  });
+});
 export default router;

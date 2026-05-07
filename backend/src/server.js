@@ -7,7 +7,6 @@ const startServer = async () => {
   try {
     await initMongo();
     await verifyMail();
-
     app.listen(env.PORT, () => {
       console.log(`Server running on port ${env.PORT}`);
     });

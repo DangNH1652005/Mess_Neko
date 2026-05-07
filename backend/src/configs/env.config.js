@@ -23,7 +23,15 @@ export const env = {
 
   // cookie
   maxAge: 3600000,
-  NODE_ENV: process.env.NODE_ENV || null
+  NODE_ENV: process.env.NODE_ENV || null,
+
+  // cloudinary
+  CLOUDINARY_CLOUD_NAME: process.env.CLOUDINARY_CLOUD_NAME || null,
+  CLOUDINARY_API_KEY: process.env.CLOUDINARY_API_KEY || null,
+  CLOUDINARY_API_SECRET: process.env.CLOUDINARY_API_SECRET || null,
+
+  STREAM_API_KEY: process.env.STREAM_API_KEY || null,
+  STREAM_SECRET: process.env.STREAM_SECRET || null
 };
 
 export const path = {

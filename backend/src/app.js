@@ -1,21 +1,26 @@
-import express from 'express';
-import authRoute from "./routes/auth.route.js";
-import friendRoute from "./routes/friend.route.js";
-import cookieParser from 'cookie-parser';
-import usersRoute from "./routes/user.route.js";
-import requestFriend from './routes/friend-request.route.js';
+import express from "express";
+import cookieParser from "cookie-parser";
+import cors from 'cors';
+
+import authRoutes from "./routes/auth.route.js";
+import userRoutes from "./routes/user.route.js";
+import chatRoutes from "./routes/chat.route.js";
+
+
 
 const app = express();
 
 // middleware
 app.use(express.json());
 app.use(cookieParser());
-
-// route
-app.use("/api/auth", authRoute);
-app.use("/api/users", usersRoute);
-app.use("/api/friends", friendRoute);
-app.use("/api/friend-requests", requestFriend);
+app.use(cors({
+    origin: "http://localhost:5173",
+    credentials: true
+}))
 
 
+// router
+app.use("/api/auth", authRoutes);
+app.use("/api/users", userRoutes);
+app.use("/api/chats", chatRoutes);
 export default app;
