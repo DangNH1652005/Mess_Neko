@@ -1,0 +1,12 @@
+{
+  "name": "mess_neko",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Run docker compose",
+  "scripts": {
+    "start:db": "docker compose up -d",
+    "stop:db": "docker compose down",
+    "reset:db": "docker compose down -v && docker compose up -d",
+    "logs:db": "docker compose logs -f mongo"
+  }
+}

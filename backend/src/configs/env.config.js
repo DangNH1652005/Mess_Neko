@@ -6,7 +6,7 @@ export const env = {
   PORT: process.env.PORT || 3000,
 
   // env of mongodb
-  MONGO_URI: process.env.MONGO_URI || null,
+  MONGO_URI: process.env.MONGODB_URI || null,
 
   // env of send email
   SMTP_USER: process.env.SMTP_USER || null,
