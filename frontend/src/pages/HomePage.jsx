@@ -1,30 +1,21 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import {
   getOutgoingFriendReqs,
   getRecommendedUsers,
-  getUserFriends,
   sendFriendRequest,
 } from "../services/user.service";
-import { Link } from "react-router";
 import {
   CheckCircleIcon,
   MapPinIcon,
   UserPlusIcon,
-  UsersIcon,
 } from "lucide-react";
-import FriendCard, { getLanguageFlag } from "../components/FriendCard";
-import NoFriendsFound from "../components/NoFriendsFound";
+import { getLanguageFlag } from "../components/FriendCard";
 import { capitialize } from "../utils/capitialize.util";
 
 const HomePage = () => {
   const queryClient = useQueryClient();
   const [outgoingRequestsIds, setOutgoingRequestsIds] = useState(new Set());
-
-  const { data: friends = [], isLoading: loadingFriends } = useQuery({
-    queryKey: ["friends"],
-    queryFn: getUserFriends,
-  });
 
   const { data: recommendedUsers = [], isLoading: loadingUsers } = useQuery({
     queryKey: ["users"],
@@ -132,9 +123,8 @@ const HomePage = () => {
 
                       {/* Action button */}
                       <button
-                        className={`btn w-full mt-2 ${
-                          hasRequestBeenSent ? "btn-disabled" : "btn-primary"
-                        } `}
+                        className={`btn w-full mt-2 ${hasRequestBeenSent ? "btn-disabled" : "btn-primary"
+                          } `}
                         onClick={() => sendRequestMutation(user._id)}
                         disabled={hasRequestBeenSent || isPending}
                       >
