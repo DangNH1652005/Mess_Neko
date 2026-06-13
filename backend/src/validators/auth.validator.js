@@ -19,3 +19,8 @@ export const onboardSchema = Joi.object({
   location: Joi.string().required(),
   profilePic: Joi.string().uri().allow(""),
 });
+
+export const verifyOptSchema = Joi.object({
+  email: Joi.string().email().required(),
+  otp: Joi.string().required()
+})

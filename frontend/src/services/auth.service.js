@@ -15,6 +15,11 @@ export const signup = async (data) => {
   return res.data;
 };
 
+export const verifyOtp = async (data) => {
+  const res = await axiosInstance.post("/auth/verify-otp", data);
+  return res.data;
+};
+
 export const login = async (loginData) => {
   const res = await axiosInstance.post("/auth/login", loginData);
   return res.data;

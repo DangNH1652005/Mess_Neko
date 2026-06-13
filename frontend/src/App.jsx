@@ -12,13 +12,15 @@ import PageLoader from "./components/PageLoader";
 import useAuthUser from "./hooks/useAuthUser.hook";
 import Layout from "./components/Layout";
 import { useThemeStore } from "./stores/useThemeStore.store";
+import VerifyOtpPage from "./pages/VerifyOtpPage";
+import FriendsPage from "./pages/FriendsPage";
 
 const App = () => {
   const { isLoading, authUser } = useAuthUser();
   const { theme } = useThemeStore();
 
   const isAuthenticated = Boolean(authUser);
-  const isOnboarded = authUser?.isOnboarded; // isOnboarded: ben backend
+  const isOnboarded = authUser?.isOnboarded;
 
   if (isLoading) {
     return <PageLoader />;
@@ -29,11 +31,33 @@ const App = () => {
       <Toaster position="top-right" />
       <Routes>
         <Route
+          path="/verify-otp"
+          element={
+            !isAuthenticated ? (
+              <VerifyOtpPage />
+            ) : (
+              <Navigate to={isOnboarded ? "/" : "/onboarding"} />
+            )
+          }
+        />
+        <Route
           path="/"
           element={
             isAuthenticated && isOnboarded ? (
               <Layout showSidebar={true}>
                 <HomePage />
+              </Layout>
+            ) : (
+              <Navigate to={!isAuthenticated ? "/login" : "/onboarding"} />
+            )
+          }
+        />
+        <Route
+          path="/friends"
+          element={
+            isAuthenticated && isOnboarded ? (
+              <Layout showSidebar={true}>
+                <FriendsPage />
               </Layout>
             ) : (
               <Navigate to={!isAuthenticated ? "/login" : "/onboarding"} />

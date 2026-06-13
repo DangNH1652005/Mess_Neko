@@ -17,3 +17,19 @@ export const generateStreamToken = (userId) => {
     console.log("Error generating Stream token: ", error);
   }
 };
+
+export const syncStreamUser = async (user) => {
+  try {
+    const streamData = await upsertStreamUser({
+      id: user._id.toString(),
+      name: user.fullName,
+      image: user.profilePic || "",
+    });
+
+    if (streamData) {
+      console.log(`Stream user created for ${streamData.name}`);
+    }
+  } catch (error) {
+    console.error("Stream sync failed:", error.message);
+  }
+};

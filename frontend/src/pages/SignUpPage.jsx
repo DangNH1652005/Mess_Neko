@@ -29,7 +29,7 @@ const SignUpPage = () => {
             {/* Illustration */}
             <div className="relative aspect-square max-w-sm mx-auto">
               <img
-                src="public/images/Chat-amico.png"
+                src="/images/Chat-amico.png"
                 alt="Language connection illustration"
                 className="w-full h-full"
               />
