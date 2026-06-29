@@ -1,37 +1,49 @@
-import jwt from 'jsonwebtoken';
-import { env } from '../configs/env.config.js';
-import User from '../models/User.model.js';
+import jwt from "jsonwebtoken";
+import { env } from "../configs/env.config.js";
+import User from "../models/User.model.js";
 
 export const protectRoute = async (req, res, next) => {
   try {
     const token = req.cookies.jwt;
-    if(!token) {
-        return res.status(401).json({
-            message: "Unauthorized - No token provided"
-        });
+    if (!token) {
+      return res.status(401).json({
+        message: "Unauthorized - No token provided",
+      });
     }
 
     const decoded = jwt.verify(token, env.JWT_SECRET);
-    
-    if(!decoded) {
-        return res.status(401).json({
-            message: "Unauthorized - Invalid token"
-        });
+
+    if (!decoded) {
+      return res.status(401).json({
+        message: "Unauthorized - Invalid token",
+      });
     }
 
-    const user = await User.findById(decoded.userId).select('-password');
-    if(!user) {
-        return res.status(401).json({
-            message: "Unauthorized - User not found"
-        });
+    const user = await User.findById(decoded.userId).select("-password");
+    if (!user) {
+      return res.status(401).json({
+        message: "Unauthorized - User not found",
+      });
     }
 
     req.user = user;
     next();
-
   } catch (error) {
     console.log("Error protectRoute middleware", error);
-    res.status(500).json({
+
+    if (error.name === "TokenExpiredError") {
+      return res.status(401).json({
+        message: "Unauthorized - Token expired",
+      });
+    }
+
+    if (error.name === "JsonWebTokenError") {
+      return res.status(401).json({
+        message: "Unauthorized - Invalid token",
+      });
+    }
+
+    return res.status(500).json({
       message: "Internal Server Error",
     });
   }

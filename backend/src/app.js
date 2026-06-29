@@ -5,6 +5,8 @@ import cors from 'cors';
 import authRoutes from "./routes/auth.route.js";
 import userRoutes from "./routes/user.route.js";
 import chatRoutes from "./routes/chat.route.js";
+import postRoutes from "./routes/post.route.js"
+import commentRoutes from "./routes/comment.route.js"
 
 const app = express();
 
@@ -12,12 +14,15 @@ const app = express();
 app.use(express.json());
 app.use(cookieParser());
 app.use(cors({
-    origin: "http://localhost:5173",
+    origin: "http://localhost:5173", // need fix move into env
     credentials: true
 }))
 
 // router
+app.use("/api/posts", postRoutes);
 app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/chats", chatRoutes);
+app.use('/api/comments', commentRoutes);
+
 export default app;

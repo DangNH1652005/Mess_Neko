@@ -8,6 +8,7 @@ import {
   getRecommendedUsers,
   sendFriendRequest,
 } from "../controllers/user.controller.js";
+// api/users
 const router = express.Router();
 
 router.use(protectRoute);

@@ -2,6 +2,7 @@ import app from "./app.js";
 import { env } from "./configs/env.config.js";
 import initMongo from "./configs/mongodb.config.js";
 import { verifyMail } from "./configs/mail.config.js";
+import cloudinary from "./configs/cloudinary.config.js";
 
 const startServer = async () => {
   try {
