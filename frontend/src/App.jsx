@@ -10,10 +10,12 @@ import ChatPage from "./pages/ChatPage";
 import OnboardingPage from "./pages/OnboardingPage";
 import PageLoader from "./components/PageLoader";
 import useAuthUser from "./hooks/useAuthUser.hook";
-import Layout from "./components/Layout";
+import Layout from "./layouts/Layout";
 import { useThemeStore } from "./stores/useThemeStore.store";
 import VerifyOtpPage from "./pages/VerifyOtpPage";
 import FriendsPage from "./pages/FriendsPage";
+import PostPage from "./pages/PostPage";
+import PostLayout from "./layouts/PostLayout";
 
 const App = () => {
   const { isLoading, authUser } = useAuthUser();
@@ -129,6 +131,18 @@ const App = () => {
               )
             ) : (
               <Navigate to="/login" />
+            )
+          }
+        />
+        <Route
+          path="/posts"
+          element={
+            isAuthenticated && isOnboarded ? (
+              <PostLayout>
+                <PostPage />
+              </PostLayout>
+            ) : (
+              <Navigate to={!isAuthenticated ? "/login" : "/onboarding"} />
             )
           }
         />
