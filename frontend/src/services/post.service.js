@@ -10,3 +10,12 @@ export const getPosts = async ({ cursor = null }) => {
 
   return response.data;
 };
+
+export const createPost = async (data) => {
+  const res = await axiosInstance.post("/posts", data, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  });
+  return res.data;
+};

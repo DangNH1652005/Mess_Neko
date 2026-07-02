@@ -6,6 +6,7 @@ import {
   getMyFriends,
   getOutgoingFriendReqs,
   getRecommendedUsers,
+  getUserByIdController,
   sendFriendRequest,
 } from "../controllers/user.controller.js";
 // api/users
@@ -14,9 +15,9 @@ const router = express.Router();
 router.use(protectRoute);
 router.get("/", getRecommendedUsers);
 router.get("/friends", getMyFriends);
-
 router.post("/friend-request/:id", sendFriendRequest);
 router.put("/friend-request/:id/accept", acceptFriendRequest);
 router.get("/friend-requests", getFriendRequests);
 router.get("/outgoing-friend-requests", getOutgoingFriendReqs); //danh sách các lời mời kết bạn mà USER ĐÃ GỬI đi.
+router.get("/:id", getUserByIdController);
 export default router;

@@ -1,10 +1,20 @@
 import { Heart, MessageCircle, MoreHorizontal } from "lucide-react";
+import { getVisibilityConfig } from "../constants/visibility.constant";
 
 const PostCard = ({ post }) => {
-  const { author, content, images, likesCount, commentsCount, createdAt } =
-    post;
+  const {
+    author,
+    content,
+    images,
+    visibility,
+    likesCount,
+    commentsCount,
+    createdAt,
+  } = post;
 
-  console.log(images);
+  const config = getVisibilityConfig(post.visibility);
+  const Icon = config.icon;
+
   return (
     <div className="card bg-base-100 border border-base-300 shadow-xl">
       {/* Header */}
@@ -19,10 +29,16 @@ const PostCard = ({ post }) => {
 
             <div>
               <h2 className="font-semibold">{author.fullName}</h2>
+              <div className="mt-1 flex items-center gap-2 text-sm text-base-content/60">
+                <span>{new Date(createdAt).toLocaleString()}</span>
 
-              <p className="text-sm text-base-content/60">
-                {new Date(createdAt).toLocaleString()}
-              </p>
+                <span>•</span>
+
+                <span className={`badge badge-sm gap-1 ${config.className}`}>
+                  <Icon className="size-3" />
+                  {config.label}
+                </span>
+              </div>
             </div>
           </div>
 

@@ -1,5 +1,6 @@
 import FriendsRequest from "../models/FriendRequest.model.js";
 import User from "../models/User.model.js";
+import { getUserById } from "../services/user.service.js";
 
 export const getRecommendedUsers = async (req, res) => {
   try {
@@ -109,7 +110,7 @@ export const acceptFriendRequest = async (req, res) => {
         message: "You are not authorized to accept this request",
       });
     }
-    
+
     friendRequest.status = "accepted";
     await friendRequest.save();
 
@@ -165,13 +166,36 @@ export const getOutgoingFriendReqs = async (req, res) => {
   try {
     const outgoingRequests = await FriendsRequest.find({
       sender: req.user._id,
-      status: 'pending'
-    }).populate("recipient", "fullName profilePic nativeLanguage learningLanguage");
+      status: "pending",
+    }).populate(
+      "recipient",
+      "fullName profilePic nativeLanguage learningLanguage",
+    );
     res.status(200).json(outgoingRequests);
   } catch (error) {
     console.log("Error in getFriendRequests controller", error.message);
     res.status(500).json({
       message: "Internal Server Error",
+    });
+  }
+};
+
+export const getUserByIdController = async (req, res) => {
+  try {
+    const { id: userId } = req.params;
+
+    const user = await getUserById(userId);
+
+    return res.status(200).json({
+      success: true,
+      data: user,
+    });
+  } catch (error) {
+    console.log("Error in getUserByIdController ", error.message);
+
+    res.status(500).json({
+      success: false,
+      message: "Internal server error",
     });
   }
 };

@@ -2,8 +2,12 @@ import React, { useEffect, useRef } from "react";
 import { usePosts } from "../hooks/post.hook";
 import PageLoader from "../components/PageLoader";
 import PostCard from "../components/PostCard";
+import CreatePost from "../components/CreatePost";
+import useAuthUser from "../hooks/useAuthUser.hook";
 
 const PostPage = () => {
+  const { authUser } = useAuthUser();
+
   const { data, isLoading, fetchNextPage, hasNextPage, isFetchingNextPage } =
     usePosts();
 
@@ -26,7 +30,10 @@ const PostPage = () => {
   }, [fetchNextPage, hasNextPage, isFetchingNextPage]);
 
   return (
-    <section className="max-w-5xl mx-auto space-y-4">
+    <section className="max-w-3xl mx-auto space-y-4">
+      <div>
+        <CreatePost userId={ authUser._id }/>
+      </div>
       {posts.map((post) => (
         <PostCard key={post._id} post={post} />
       ))}
