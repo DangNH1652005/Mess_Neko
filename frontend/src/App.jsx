@@ -16,6 +16,7 @@ import VerifyOtpPage from "./pages/VerifyOtpPage";
 import FriendsPage from "./pages/FriendsPage";
 import PostPage from "./pages/PostPage";
 import PostLayout from "./layouts/PostLayout";
+import PostDetailPage from "./pages/PostDetailPage";
 
 const App = () => {
   const { isLoading, authUser } = useAuthUser();
@@ -140,6 +141,19 @@ const App = () => {
             isAuthenticated && isOnboarded ? (
               <PostLayout>
                 <PostPage />
+              </PostLayout>
+            ) : (
+              <Navigate to={!isAuthenticated ? "/login" : "/onboarding"} />
+            )
+          }
+        />
+
+         <Route
+          path="/posts/:id"
+          element={
+            isAuthenticated && isOnboarded ? (
+              <PostLayout>
+                <PostDetailPage />
               </PostLayout>
             ) : (
               <Navigate to={!isAuthenticated ? "/login" : "/onboarding"} />

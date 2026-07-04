@@ -1,5 +1,10 @@
-import { useInfiniteQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { createPost, getPosts } from "../services/post.service";
+import {
+  useInfiniteQuery,
+  useMutation,
+  useQuery,
+  useQueryClient,
+} from "@tanstack/react-query";
+import { createPost, getPostDetail, getPosts } from "../services/post.service";
 
 export const usePosts = () => {
   return useInfiniteQuery({
@@ -28,5 +33,13 @@ export const useCreatePost = () => {
         queryKey: ["posts"],
       });
     },
+  });
+};
+
+export const usePostDetail = (postId) => {
+  return useQuery({
+    queryKey: ["posts", postId],
+    queryFn: () => getPostDetail(postId),
+    enabled: !!postId,
   });
 };

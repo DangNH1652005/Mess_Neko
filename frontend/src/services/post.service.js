@@ -19,3 +19,18 @@ export const createPost = async (data) => {
   });
   return res.data;
 };
+
+export const getPostDetail = async (postId) => {
+  const res = await axiosInstance.get(`/posts/${postId}`)
+  return res.data;
+}
+
+export const getAllCommentByPostId = async (postId) => {
+  const res = await axiosInstance.get(`/posts/${postId}/comments`);
+  return res.data;
+};
+
+export const createCommentByPostId = async (postId, data) => {
+  const res = await axiosInstance.post(`/posts/${postId}/comments`, data);
+  return res.data;
+};

@@ -1,8 +1,10 @@
 import { Heart, MessageCircle, MoreHorizontal } from "lucide-react";
 import { getVisibilityConfig } from "../constants/visibility.constant";
+import { Link } from "react-router";
 
 const PostCard = ({ post }) => {
   const {
+    _id,
     author,
     content,
     images,
@@ -93,13 +95,15 @@ const PostCard = ({ post }) => {
       <div className="grid grid-cols-2">
         <button className="btn btn-ghost rounded-none">
           <Heart size={18} />
-          Thích
+          Like
         </button>
-
-        <button className="btn btn-ghost rounded-none">
+        <Link
+          to={`/posts/${_id}`}
+          className="btn btn-ghost rounded-none"
+        >
           <MessageCircle size={18} />
-          Bình luận
-        </button>
+          Comment
+        </Link>
       </div>
     </div>
   );

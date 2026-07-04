@@ -78,7 +78,7 @@ const CreatePost = ({ userId }) => {
   const testStr = `${user.fullName}, what are you thinking about?`;
 
   return (
-    <div className="w-full rounded-2xl shadow-sm border p-4">
+    <div className="w-full rounded-2xl shadow-sm border border-primary p-4">
       {/* OPEN MODAL */}
       <div className="flex items-center gap-3">
         <div className="avatar">
@@ -91,12 +91,10 @@ const CreatePost = ({ userId }) => {
           onClick={openModal}
           className="
           flex-1
-          bg-gray-100
-          hover:bg-gray-200
-          rounded-full
+          btn-primary
           px-4 py-3
           text-left
-          text-gray-500
+          text-secondary
           "
         >
           What do you think?
@@ -108,15 +106,15 @@ const CreatePost = ({ userId }) => {
       <div className="grid grid-cols-3">
         <button
           onClick={openModal}
-          className="flex gap-2 justify-center py-2 hover:bg-gray-100 rounded-lg"
+          className="flex gap-2 justify-center py-2 hover:bg-primary rounded-lg"
         >
-          <Image className="text-green-500" />
+          <Image className="text-secondary" />
           Image/Video
         </button>
 
         <button
           onClick={openModal}
-          className="flex gap-2 justify-center py-2 hover:bg-gray-100 rounded-lg"
+          className="flex gap-2 justify-center py-2 hover:bg-primary rounded-lg"
         >
           <Smile className="text-yellow-500" />
           Emotion
@@ -124,7 +122,7 @@ const CreatePost = ({ userId }) => {
 
         <button
           onClick={openModal}
-          className="flex gap-2 justify-center py-2 hover:bg-gray-100 rounded-lg"
+          className="flex gap-2 justify-center py-2 hover:bg-primary rounded-lg"
         >
           <Share2 />
           Share
@@ -279,12 +277,10 @@ const CreatePost = ({ userId }) => {
               btn
               w-full
               mt-4
-              bg-blue-600
-              text-white
-              disabled:bg-gray-300
+             btn-primary
               "
             >
-              Đăng
+              Post
             </button>
           </div>
         </div>
