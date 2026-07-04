@@ -3,7 +3,7 @@ import Post from "../models/Post.model.js";
 
 export const getAllCommentByPostId = async (postId) => {
   const comments = await Comment.find({ post: postId })
-    .populate("author", "username fullName avatar")
+    .populate("author", "username fullName profilePic")
     .sort({ createdAt: -1 })
     .lean();
 
@@ -20,12 +20,12 @@ export const createCommentByPostId = async (postId, authorId, content) => {
   }
 
   const comment = await Comment.create({
-    post: postId,
+    post: post._id,
     author: authorId,
-    content,
+    content: content,
   });
 
-  await Post.findByIdAndUpdate(postId, {
+  await post.updateOne({
     $inc: {
       commentsCount: 1,
     },

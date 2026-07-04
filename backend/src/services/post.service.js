@@ -42,7 +42,7 @@ export const getPostById = async (postId) => {
   const post = await Post.findById(postId)
     .populate({
       path: "author",
-      select: "username fullName avatar",
+      select: "username fullName profilePic",
     })
     .lean();
 

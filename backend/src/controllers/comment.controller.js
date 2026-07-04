@@ -20,11 +20,13 @@ export const getAllCommentByPostIdController = async (req, res) => {
 
 export const createCommentByPostIdController = async (req, res) => {
   try {
-    const { postId } = req.params;
+    const { id: postId } = req.params;
+    if(!postId) {
+      console.log(postId);
+    }
     const { content } = req.body;
 
-    const authorId = req.user.id;
-
+    const authorId = req.user._id;
     const comment = await createCommentByPostId(
       postId,
       authorId,
