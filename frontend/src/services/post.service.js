@@ -34,3 +34,14 @@ export const createCommentByPostId = async (postId, data) => {
   const res = await axiosInstance.post(`/posts/${postId}/comments`, data);
   return res.data;
 };
+
+export const likePostByPostId = async (postId) => {
+  const res = await axiosInstance.post(`/posts/${postId}/like`);
+  return res.data;
+}
+
+export const unlikePostByPostId = async (postId) => {
+  const res = await axiosInstance.delete(`posts/${postId}/like`);
+  return res.data;
+}
+

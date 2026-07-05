@@ -7,11 +7,14 @@ import Loading from "../components/Loading";
 import { Heart, MessageCircle, Send, Share2, ThumbsUp } from "lucide-react";
 import { timeAgo } from "../utils/capitialize.util";
 import Comment from "../components/Comment";
+import { useLikePost, useUnlikePost } from "../hooks/like.hook";
 
 const PostDetailPage = () => {
   const { id } = useParams();
 
   const { data: post, isLoading, isError, error } = usePostDetail(id);
+  const { mutate: likePost, isPending: isLiking } = useLikePost();
+  const { mutate: unlikePost, isPending: isUnliking } = useUnlikePost();
 
   if (isLoading) {
     return <Loading />;
@@ -25,8 +28,22 @@ const PostDetailPage = () => {
     return <ErrorMessage error={"Can not find post"} />;
   }
 
-  const { author, content, images, likesCount, commentsCount, createdAt } =
-    post.data;
+  const {
+    author,
+    content,
+    images,
+    likesCount,
+    commentsCount,
+    createdAt,
+    isLiked,
+  } = post.data;
+
+  const isPending = isLiking || isUnliking;
+
+  const handleLikeToggle = () => {
+    if (isPending) return;
+    isLiked ? unlikePost(id) : likePost(id);
+  };
 
   return (
     <div className="max-w-2xl mx-auto bg-base-100 rounded-box shadow-md border border-base-300">
@@ -88,7 +105,7 @@ const PostDetailPage = () => {
         </div>
       )}
 
-      {/* Stats: likes / comments / shares */}
+      {/* Stats */}
       <div className="flex items-center justify-between px-5 pt-4 text-sm text-base-content/60">
         <div className="flex items-center gap-1">
           <span className="flex -space-x-1">
@@ -108,8 +125,12 @@ const PostDetailPage = () => {
 
       {/* Action buttons */}
       <div className="flex items-center justify-around px-5 pb-2 text-base-content/70">
-        <button className="btn btn-ghost btn-sm gap-2 flex-1">
-          <Heart className="w-4 h-4" />
+        <button
+          className={`btn btn-ghost btn-sm gap-2 flex-1 ${isLiked ? "text-error" : ""}`}
+          onClick={handleLikeToggle}
+          disabled={isPending}
+        >
+          <Heart className={`w-4 h-4 ${isLiked ? "fill-error" : ""}`} />
           Like
         </button>
         <button className="btn btn-ghost btn-sm gap-2 flex-1">
@@ -123,7 +144,7 @@ const PostDetailPage = () => {
       </div>
 
       <div className="divider my-0"></div>
-    <Comment postId={id}/>
+      <Comment postId={id} />
     </div>
   );
 };

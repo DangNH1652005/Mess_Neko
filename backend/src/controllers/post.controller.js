@@ -41,10 +41,13 @@ export const createPostController = async (req, res) => {
 export const getPostsController = async (req, res) => {
   try {
     const { cursor, limit } = req.query;
+    const userId = req.user?._id;
+
 
     const data = await getPosts({
       cursor: cursor || null,
       limit: parseInt(limit) || 3,
+      userId
     });
 
     return res.status(200).json({ message: "Get posts successfully", ...data });
@@ -56,7 +59,10 @@ export const getPostsController = async (req, res) => {
 export const getPostByIdController = async (req, res) => {
   try {
     const { id: postId } = req.params;
-    const post = await getPostById(postId);
+    const userId = req.user?._id;
+    
+    const post = await getPostById(postId, userId);
+
 
     return res.status(200).json({
       message: "Get post successfully",

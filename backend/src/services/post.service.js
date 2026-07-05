@@ -1,4 +1,5 @@
 import { POST_VISIBILITY } from "../constants/post.constant.js";
+import Like from "../models/Like.model.js";
 import Post from "../models/Post.model.js";
 import { uploadImage } from "./cloudinary.service.js";
 import { deleteCommentsByPostId } from "./comment.service.js";
@@ -19,7 +20,7 @@ export const createPost = async ({ authorId, content, files, visibility }) => {
   return post.populate("author", "fullName profilePic");
 };
 
-export const getPosts = async ({ cursor, limit = 3 }) => {
+export const getPosts = async ({ cursor, limit = 3, userId }) => {
   const query = { visibility: POST_VISIBILITY.PUBLIC };
 
   if (cursor) {
@@ -29,16 +30,46 @@ export const getPosts = async ({ cursor, limit = 3 }) => {
   const posts = await Post.find(query)
     .populate("author", "fullName profilePic")
     .sort({ _id: -1 })
-    .limit(limit);
+    .limit(limit)
+    .lean();
+
+  if (posts.length === 0) {
+    return {
+      posts,
+      nextCursor: null,
+      hasMore: false,
+    };
+  }
+
+  // Query 1 lần duy nhất để biết user hiện tại đã like post nào trong danh sách này
+  let likedPostIdSet = new Set();
+
+  if (userId) {
+    const postIds = posts.map((p) => p._id);
+
+    const likedPosts = await Like.find({
+      user: userId,
+      post: { $in: postIds },
+    })
+      .select("post")
+      .lean();
+
+    likedPostIdSet = new Set(likedPosts.map((l) => l.post.toString()));
+  }
+
+  const postsWithLikeStatus = posts.map((post) => ({
+    ...post,
+    isLiked: likedPostIdSet.has(post._id.toString()),
+  }));
 
   return {
-    posts,
+    posts: postsWithLikeStatus,
     nextCursor: posts.length === limit ? posts[posts.length - 1]._id : null,
     hasMore: posts.length === limit,
   };
 };
 
-export const getPostById = async (postId) => {
+export const getPostById = async (postId, userId) => {
   const post = await Post.findById(postId)
     .populate({
       path: "author",
@@ -50,7 +81,11 @@ export const getPostById = async (postId) => {
     throw new ApiError(404, "Post not found");
   }
 
-  return post;
+  const isLiked = userId
+    ? !!(await Like.exists({ post: postId, user: userId }))
+    : false;
+
+  return { ...post, isLiked };
 };
 
 export const deletePost = async (postId, userId) => {
