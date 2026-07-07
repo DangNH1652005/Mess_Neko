@@ -18,6 +18,12 @@ import PostPage from "./pages/PostPage";
 import PostLayout from "./layouts/PostLayout";
 import PostDetailPage from "./pages/PostDetailPage";
 
+// mới thêm
+import LandingPage from "./pages/LandingPage";
+import AboutPage from "./pages/AboutPage";
+import ContactPage from "./pages/ContactPage";
+import CommunityGuidelinesPage from "./pages/CommunityGuidelinesPage";
+
 const App = () => {
   const { isLoading, authUser } = useAuthUser();
   const { theme } = useThemeStore();
@@ -33,6 +39,28 @@ const App = () => {
     <div className="min-h-screen" data-theme={theme}>
       <Toaster position="top-right" />
       <Routes>
+        {/* "/" giờ rẽ 3 nhánh */}
+        <Route
+          path="/"
+          element={
+            !isAuthenticated ? (
+              <LandingPage />
+            ) : !isOnboarded ? (
+              <Navigate to="/onboarding" />
+            ) : (
+              <Layout showSidebar={true}>
+                <HomePage />
+              </Layout>
+            )
+          }
+        />
+
+        {/* các route công khai, ai cũng xem được */}
+        <Route path="/about" element={<AboutPage />} />
+        <Route path="/contact" element={<ContactPage />} />
+        <Route path="/community-guidelines" element={<CommunityGuidelinesPage />} />
+
+        {/* các route còn lại giữ nguyên như bạn đã có */}
         <Route
           path="/verify-otp"
           element={
@@ -40,18 +68,6 @@ const App = () => {
               <VerifyOtpPage />
             ) : (
               <Navigate to={isOnboarded ? "/" : "/onboarding"} />
-            )
-          }
-        />
-        <Route
-          path="/"
-          element={
-            isAuthenticated && isOnboarded ? (
-              <Layout showSidebar={true}>
-                <HomePage />
-              </Layout>
-            ) : (
-              <Navigate to={!isAuthenticated ? "/login" : "/onboarding"} />
             )
           }
         />
@@ -147,8 +163,7 @@ const App = () => {
             )
           }
         />
-
-         <Route
+        <Route
           path="/posts/:id"
           element={
             isAuthenticated && isOnboarded ? (

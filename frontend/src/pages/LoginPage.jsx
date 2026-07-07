@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import { login } from "../services/auth.service";
-import { ShipWheelIcon } from "lucide-react";
+import { ArrowLeftIcon, ShipWheelIcon } from "lucide-react";
 import { Link } from "react-router";
 import { useLogin } from "../hooks/auth.hook";
+import { useThemeStore } from "../stores/useThemeStore.store";
 
 const LoginPage = () => {
   const [loginData, setLoginData] = useState({
@@ -11,6 +12,7 @@ const LoginPage = () => {
   });
 
   const { isPending, error, loginMutation } = useLogin();
+  const { theme } = useThemeStore();
 
   const handleLogin = (e) => {
     e.preventDefault();
@@ -19,11 +21,19 @@ const LoginPage = () => {
   return (
     <div
       className="h-screen flex items-center justify-center p-4 sm:p-6 md:p-8"
-      data-theme="valentine"
+      data-theme={theme}
     >
       <div className="border border-primary/25 flex flex-col lg:flex-row w-full max-w-5xl mx-auto bg-base-100 rounded-xl shadow-lg overflow-hidden">
         {/* LOGIN FORM SECTION */}
         <div className="w-full lg:w-1/2 p-4 sm:p-8 flex flex-col">
+          <Link
+            to="/"
+            className="inline-flex items-center gap-1.5 text-sm text-base-content/60 hover:text-primary mb-4 w-fit"
+          >
+            <ArrowLeftIcon className="size-4" />
+            Back to home
+          </Link>
+
           {/* LOGO */}
           <div className="mb-4 flex items-center justify-start gap-2">
             <ShipWheelIcon className="size-9 text-primary" />
