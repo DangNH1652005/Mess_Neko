@@ -7,6 +7,7 @@ import userRoutes from "./routes/user.route.js";
 import chatRoutes from "./routes/chat.route.js";
 import postRoutes from "./routes/post.route.js"
 import commentRoutes from "./routes/comment.route.js"
+import { env } from "./configs/env.config.js";
 
 const app = express();
 
@@ -14,7 +15,7 @@ const app = express();
 app.use(express.json());
 app.use(cookieParser());
 app.use(cors({
-    origin: "http://localhost:5173", // need fix move into env
+    origin: env.URL_FRONTEND, // need fix move into env
     credentials: true
 }))
 

@@ -3,6 +3,8 @@ import dotenv from "dotenv";
 dotenv.config();
 
 export const env = {
+  URL_FRONTEND: process.env.URL_FRONTEND,
+
   PORT: process.env.PORT || 3000,
 
   // env of mongodb
